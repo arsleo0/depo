@@ -21,29 +21,81 @@ def fix_shared_py(textgen_path: str):
     # Dosyayı oku
     try:
         with open(shared_py, 'r', encoding='utf-8') as f:
-            content = f.read()
+            lines = f.readlines()
     except Exception as e:
         print(f"❌ Dosya okunamadı: {e}")
         return False
 
-    # Hatalı kodu bul
-    wrong_code = "with Path(f'{args.model_dir}/config.yaml') as p:"
+    # Hatalı satırı bul
+    found_error = False
+    fixed_lines = []
+    i = 0
 
-    if wrong_code not in content:
+    while i < len(lines):
+        line = lines[i]
+
+        # Hatalı satırı bul: "with Path(f'{args.model_dir}/config.yaml') as p:"
+        if "with Path(f'{args.model_dir}/config.yaml') as p:" in line:
+            found_error = True
+            print(f"🔍 Hata bulundu: Satır {i+1}")
+
+            # with satırını p = ... ile değiştir
+            indent = len(line) - len(line.lstrip())
+            fixed_lines.append(' ' * indent + f"p = Path(f'{{args.model_dir}}/config.yaml')\n")
+
+            # Sonraki satırları kontrol et ve girintilerini düzelt
+            i += 1
+            while i < len(lines):
+                next_line = lines[i]
+                next_indent = len(next_line) - len(next_line.lstrip())
+
+                # Eğer bir sonraki satır orijinal girintileme + 4 space ise, 4 space azalt
+                if next_indent > indent and next_line.strip():
+                    # 4 space azalt
+                    fixed_lines.append(' ' * (next_indent - 4) + next_line.lstrip())
+                elif next_indent <= indent and next_line.strip():
+                    # Bu satır bloğun dışında, geri dön
+                    i -= 1
+                    break
+                else:
+                    # Boş satır
+                    fixed_lines.append(next_line)
+                i += 1
+        else:
+            fixed_lines.append(line)
+
+        i += 1
+
+    if not found_error:
         print("✓ Hata bulunamadı! Dosya zaten düzeltilmiş olabilir.")
-        return True
-
-    # Düzelt
-    fixed_content = content.replace(
-        "with Path(f'{args.model_dir}/config.yaml') as p:\n    if p.exists():",
-        "p = Path(f'{args.model_dir}/config.yaml')\nif p.exists():"
-    )
+        # İndentation hatası varsa düzeltmeye çalış
+        if "    else:" in ''.join(lines) and "if p.exists():" in ''.join(lines):
+            print("⚠️  Ancak indentation hatası tespit edildi, düzeltiliyor...")
+            # Tüm dosyayı tekrar oku
+            content = ''.join(lines)
+            # else bloğunu düzelt
+            if "if p.exists():\n        model_config" in content:
+                fixed_content = content.replace(
+                    "if p.exists():\n        model_config",
+                    "if p.exists():\n    model_config"
+                )
+                fixed_content = fixed_content.replace(
+                    "    else:\n        model_config = {}",
+                    "else:\n    model_config = {}"
+                )
+                fixed_lines = fixed_content.split('\n')
+                fixed_lines = [line + '\n' for line in fixed_lines[:-1]] + [fixed_lines[-1]]
+                found_error = True
+            else:
+                return True
 
     # Yedek al
     backup_path = shared_py.with_suffix('.py.backup')
     try:
+        with open(shared_py, 'r', encoding='utf-8') as f:
+            original_content = f.read()
         with open(backup_path, 'w', encoding='utf-8') as f:
-            f.write(content)
+            f.write(original_content)
         print(f"💾 Yedek oluşturuldu: {backup_path}")
     except Exception as e:
         print(f"⚠️ Yedek oluşturulamadı: {e}")
@@ -51,7 +103,7 @@ def fix_shared_py(textgen_path: str):
     # Düzeltilmiş dosyayı kaydet
     try:
         with open(shared_py, 'w', encoding='utf-8') as f:
-            f.write(fixed_content)
+            f.writelines(fixed_lines)
         print(f"✅ Dosya başarıyla düzeltildi!")
         print(f"")
         print(f"🚀 Şimdi text-generation-webui'yi başlatabilirsiniz:")
