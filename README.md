@@ -1,6 +1,19 @@
-# Godot MCP Server - Claude Desktop & Godot Entegrasyonu
+# MCP Servers - Claude Desktop Entegrasyonları
 
-Bu proje, Claude Desktop uygulamasını Godot oyun motoruyla entegre eder. Claude, Godot projelerinizi okuyabilir, düzenleyebilir ve yönetebilir.
+Bu proje, Claude Desktop uygulaması için çeşitli MCP (Model Context Protocol) sunucuları içerir:
+
+1. **Godot MCP Server** - Claude Desktop ile Godot oyun motoru entegrasyonu
+2. **Text-generation-webui MCP Server** - Claude Desktop ile Text-generation-webui (oobabooga) entegrasyonu
+
+## 🚀 Hızlı Başlangıç
+
+### Godot Entegrasyonu
+Claude, Godot projelerinizi okuyabilir, düzenleyebilir ve yönetebilir.
+Detaylı bilgi için ana dokümantasyona bakın.
+
+### Text-generation-webui Entegrasyonu
+Claude, lokal fine-tune edilmiş LLM modellerinizle etkileşime geçebilir.
+**[📖 Text-generation-webui Kurulum ve Kullanım Kılavuzu](README_TEXTGEN.md)**
 
 ## Sorun ve Çözüm
 

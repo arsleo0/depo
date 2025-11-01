@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "textgen-webui": {
+      "command": "python",
+      "args": [
+        "C:\\Users\\mcgus\\Documents\\depo\\textgen_webui_mcp_server.py"
+      ],
+      "env": {
+        "PYTHONUNBUFFERED": "1"
+      }
+    }
+  }
+}
