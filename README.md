@@ -1,6 +1,15 @@
-# Godot MCP Server - Claude Desktop & Godot Entegrasyonu
+# Yaratıcı Yazılımlar MCP Entegrasyonu - Claude Desktop
 
-Bu proje, Claude Desktop uygulamasını Godot oyun motoruyla entegre eder. Claude, Godot projelerinizi okuyabilir, düzenleyebilir ve yönetebilir.
+Bu proje, Claude Desktop uygulamasını profesyonel yaratıcı yazılımlarınızla entegre eder. Claude Desktop üzerinden çeşitli yazılımları kontrol edebilir, otomasyonlar oluşturabilir ve iş akışınızı hızlandırabilirsiniz.
+
+## 🎨 Desteklenen Yazılımlar
+
+- **🎮 Godot** - Oyun geliştirme motoru
+- **🎨 Blender** - 3D modelleme, animasyon, rendering
+- **🎬 Autodesk Maya** - Profesyonel 3D animasyon ve VFX
+- **🖼️ Adobe Photoshop** - Görsel düzenleme ve fotoğraf manipülasyonu
+
+**Planlanan:** Illustrator, After Effects, InDesign, Premiere Pro
 
 ## Sorun ve Çözüm
 
@@ -22,13 +31,58 @@ logger = logging.getLogger(__name__)
 logger.info("Using Godot project...")
 ```
 
+## 🚀 Hızlı Başlangıç
+
+Her yazılım için detaylı kurulum ve kullanım bilgileri:
+
+📖 **[CREATIVE_SOFTWARE_MCP_SETUP.md](CREATIVE_SOFTWARE_MCP_SETUP.md)** - Tüm yazılımlar için kapsamlı kılavuz
+
+### Kısa Özet
+
+1. **Gereksinimleri yükleyin:**
+   ```bash
+   pip install mcp
+   ```
+
+2. **Claude Desktop config dosyasını düzenleyin:**
+   - Linux/Mac: `~/.config/Claude/claude_desktop_config.json`
+   - Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+
+   `claude_desktop_config.json` dosyasını bu repo'daki örnekten kopyalayın ve yolları güncelleyin.
+
+3. **Claude Desktop'ı yeniden başlatın**
+
+4. **Yazılımlarınızı Claude Desktop'tan kontrol edin!**
+
 ## Özellikler
 
+### 🎮 Godot
 - 🎮 Godot proje yapısını keşfet
 - 📝 GDScript dosyalarını oku/yaz
 - 🎬 Sahne dosyalarını (.tscn) görüntüle
 - ⚙️ Proje ayarlarını incele
 - 🤖 Claude ile doğal dilde Godot geliştirme
+
+### 🎨 Blender
+- 3D objeler oluştur ve düzenle
+- Material ve shader yönetimi
+- Render işlemleri
+- FBX, OBJ, GLTF dışa aktarma
+- Python script çalıştır (bpy API)
+
+### 🎬 Maya
+- Polygon modelleme
+- Işık ve kamera oluşturma
+- Transform işlemleri
+- MEL ve Python komutları
+- FBX, Alembic export
+
+### 🖼️ Photoshop
+- Dosya açma/kaydetme
+- Katman (layer) yönetimi
+- Filtre uygulama
+- Görsel boyutlandırma
+- PNG, JPEG, TIFF, PDF export
 
 ## Kurulum
 

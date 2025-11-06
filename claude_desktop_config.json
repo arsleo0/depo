@@ -8,6 +8,35 @@
       "env": {
         "PYTHONUNBUFFERED": "1"
       }
+    },
+    "blender": {
+      "command": "blender",
+      "args": [
+        "--background",
+        "--python",
+        "/home/user/depo/blender_mcp_server.py"
+      ],
+      "env": {
+        "PYTHONUNBUFFERED": "1"
+      }
+    },
+    "maya": {
+      "command": "mayapy",
+      "args": [
+        "/home/user/depo/maya_mcp_server.py"
+      ],
+      "env": {
+        "PYTHONUNBUFFERED": "1"
+      }
+    },
+    "photoshop": {
+      "command": "python3",
+      "args": [
+        "/home/user/depo/photoshop_mcp_server.py"
+      ],
+      "env": {
+        "PYTHONUNBUFFERED": "1"
+      }
     }
   }
 }
