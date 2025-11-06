@@ -126,79 +126,68 @@ if (-not (Test-Path $claudeConfigPath)) {
     New-Item -ItemType Directory -Path $claudeConfigPath -Force | Out-Null
 }
 
-# Yolları JSON için escape et (backslash'leri double yap)
-$targetFolderEscaped = $targetFolder -replace '\\', '\\\\'
-$pythonPathEscaped = $pythonPath -replace '\\', '\\\\'
-$blenderPathEscaped = if ($blenderPath) { $blenderPath -replace '\\', '\\\\' } else { "" }
-$mayaPathEscaped = if ($mayaPath) { $mayaPath -replace '\\', '\\\\' } else { "" }
+# PowerShell hashtable kullanarak config oluştur
+$mcpServers = @{}
 
-# Config JSON oluştur
-$configJson = @"
-{
-  "mcpServers": {
-    "godot": {
-      "command": "$pythonPathEscaped",
-      "args": [
-        "$targetFolderEscaped\\\\godot_mcp_server.py"
-      ],
-      "env": {
-        "PYTHONUNBUFFERED": "1"
-      }
+# Godot ekle
+$mcpServers["godot"] = @{
+    command = $pythonPath
+    args = @(
+        (Join-Path $targetFolder "godot_mcp_server.py")
+    )
+    env = @{
+        PYTHONUNBUFFERED = "1"
     }
-"@
+}
 
 # Blender varsa ekle
 if ($blenderPath) {
-    $configJson += @"
-,
-    "blender": {
-      "command": "$blenderPathEscaped",
-      "args": [
-        "--background",
-        "--python",
-        "$targetFolderEscaped\\\\blender_mcp_server.py"
-      ],
-      "env": {
-        "PYTHONUNBUFFERED": "1"
-      }
+    $mcpServers["blender"] = @{
+        command = $blenderPath
+        args = @(
+            "--background",
+            "--python",
+            (Join-Path $targetFolder "blender_mcp_server.py")
+        )
+        env = @{
+            PYTHONUNBUFFERED = "1"
+        }
     }
-"@
 }
 
 # Maya varsa ekle
 if ($mayaPath) {
-    $configJson += @"
-,
-    "maya": {
-      "command": "$mayaPathEscaped",
-      "args": [
-        "$targetFolderEscaped\\\\maya_mcp_server.py"
-      ],
-      "env": {
-        "PYTHONUNBUFFERED": "1"
-      }
+    $mcpServers["maya"] = @{
+        command = $mayaPath
+        args = @(
+            (Join-Path $targetFolder "maya_mcp_server.py")
+        )
+        env = @{
+            PYTHONUNBUFFERED = "1"
+        }
     }
-"@
 }
 
 # Photoshop ekle
-$configJson += @"
-,
-    "photoshop": {
-      "command": "$pythonPathEscaped",
-      "args": [
-        "$targetFolderEscaped\\\\photoshop_mcp_server.py"
-      ],
-      "env": {
-        "PYTHONUNBUFFERED": "1"
-      }
+$mcpServers["photoshop"] = @{
+    command = $pythonPath
+    args = @(
+        (Join-Path $targetFolder "photoshop_mcp_server.py")
+    )
+    env = @{
+        PYTHONUNBUFFERED = "1"
     }
-  }
 }
-"@
 
-# Config dosyasını kaydet
+# Config objesi oluştur
+$config = @{
+    mcpServers = $mcpServers
+}
+
+# JSON'a çevir ve kaydet
+$configJson = $config | ConvertTo-Json -Depth 10
 $configJson | Out-File -FilePath $claudeConfigFile -Encoding UTF8 -Force
+
 Write-Host "  ✓ Config dosyası oluşturuldu: $claudeConfigFile" -ForegroundColor Yellow
 Write-Host ""
 
