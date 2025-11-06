@@ -1,207 +1,479 @@
-# Godot MCP Server - Claude Desktop & Godot Entegrasyonu
+# 🚀 MCP Sunucuları - Claude Desktop Entegrasyonları
 
-Bu proje, Claude Desktop uygulamasını Godot oyun motoruyla entegre eder. Claude, Godot projelerinizi okuyabilir, düzenleyebilir ve yönetebilir.
+Claude Desktop ile **Godot, Photoshop ve After Effects**'i kontrol edin!
 
-## Sorun ve Çözüm
+Bu proje, Claude Desktop'ın MCP (Model Context Protocol) üzerinden lokal yazılımlarla konuşmasını sağlayan tam özellikli sunucular içerir.
 
-### Hata: `Unexpected token 'S', "[SERVER] Us"... is not valid JSON`
+---
 
-**Sorunun Kaynağı:**
-- MCP sunucuları `stdout` üzerinden JSON-RPC mesajları gönderir
-- Eğer sunucu `stdout`'a normal log mesajları yazarsa (örn: "[SERVER] Using..."), Claude Desktop bunları JSON olarak parse etmeye çalışır ve hata verir
-- **ÇÖZÜMümüz:** Tüm log mesajlarını `stderr`'e yönlendirmek, `stdout`'u sadece JSON mesajları için temiz tutmak
+## ✨ Özellikler
 
-```python
-# ❌ YANLIŞ - stdout'a log yazmak
-print("[SERVER] Using Godot project...")
+### 🎮 Godot MCP Server
+- Proje keşfi ve sahne yönetimi
+- GDScript okuma/yazma
+- Proje ayarlarını inceleme
+- **7 araç**
 
-# ✅ DOĞRU - stderr'e log yazmak
-import logging
-logging.basicConfig(stream=sys.stderr)
-logger = logging.getLogger(__name__)
-logger.info("Using Godot project...")
-```
+### 🎨 Photoshop MCP Server
+- Görüntü düzenleme ve layer yönetimi
+- Filtreler (Blur, Sharpen, Brightness)
+- Batch işlemler
+- JSX script desteği
+- **12 araç**
 
-## Özellikler
+### 🎬 After Effects MCP Server
+- Composition oluşturma
+- Text ve solid layer'lar
+- Keyframe animasyonları
+- Video rendering (H.264, ProRes)
+- Hazır animasyon şablonları
+- **15 araç**
 
-- 🎮 Godot proje yapısını keşfet
-- 📝 GDScript dosyalarını oku/yaz
-- 🎬 Sahne dosyalarını (.tscn) görüntüle
-- ⚙️ Proje ayarlarını incele
-- 🤖 Claude ile doğal dilde Godot geliştirme
+**TOPLAM: 34 araç, tek bir Claude arayüzünden!**
 
-## Kurulum
+---
 
-### 1. Gereksinimleri Yükle
+## 🚀 Hızlı Kurulum (5 Dakika!)
+
+### Seçenek 1: Hepsini Birden Kur (Önerilen)
 
 ```bash
-# Python 3.10+ gerekli
-python3 --version
+# 1. Repository'yi klonlayın
+git clone <repo-url> ~/depo
+cd ~/depo
 
-# MCP SDK'yı yükle
-pip install mcp
+# 2. Tek komutla tüm sunucuları kurun
+./install_all_mcp.sh
 
-# Veya pyproject.toml ile
-pip install -e .
+# 3. İlgili uygulamaları açın (Godot, Photoshop, After Effects)
+
+# 4. Claude Desktop'ı yeniden başlatın (Cmd+Q / tamamen kapat)
+
+# 5. Test edin!
 ```
 
-### 2. Claude Desktop'ı Yapılandır
+Claude'da yazın:
+```
+MCP araçlarımı listele
+```
 
-Claude Desktop yapılandırma dosyasını düzenleyin:
+✅ **34 araç görüyorsanız, kurulum başarılı!**
 
-**Linux/Mac:**
+---
+
+### Seçenek 2: Sadece İstediğini Kur
+
 ```bash
-~/.config/Claude/claude_desktop_config.json
+# Sadece Photoshop
+./install_all_mcp.sh photoshop
+
+# Photoshop + After Effects
+./install_all_mcp.sh photoshop aftereffects
+
+# Godot + Photoshop
+./install_all_mcp.sh godot photoshop
 ```
 
-**Windows:**
+---
+
+## 📚 Detaylı Dokümantasyon
+
+| Sunucu | Hızlı Başlangıç | Rehber | Örnekler |
+|--------|-----------------|--------|----------|
+| **🎮 Godot** | [GODOT_README.md](GODOT_README.md) | [SETUP_TR.md](SETUP_TR.md) | GODOT_README.md |
+| **🎨 Photoshop** | [PHOTOSHOP_CHEATSHEET.md](PHOTOSHOP_CHEATSHEET.md) | [PHOTOSHOP_WORKFLOW_TR.md](PHOTOSHOP_WORKFLOW_TR.md) | [PHOTOSHOP_EXAMPLES.md](PHOTOSHOP_EXAMPLES.md) (30+) |
+| **🎬 After Effects** | [AFTEREFFECTS_QUICKSTART.md](AFTEREFFECTS_QUICKSTART.md) | - | [AFTEREFFECTS_EXAMPLES.md](AFTEREFFECTS_EXAMPLES.md) (22+) |
+| **🚀 Hepsi** | **[QUICKSTART_TR.md](QUICKSTART_TR.md)** ⭐ | - | - |
+
+---
+
+## 🎯 Kullanım Örnekleri
+
+### 🎮 Godot
+
 ```
-%APPDATA%\Claude\claude_desktop_config.json
+Claude'a sor:
+"Godot projem /home/user/MyGame dizininde, bağlan"
+"Projemde hangi sahneler var?"
+"scripts/player.gd dosyasını oku"
+"Yeni bir enemy.gd scripti oluştur"
 ```
 
-Aşağıdaki yapılandırmayı ekleyin (PATH'leri kendi sisteminize göre değiştirin):
+---
 
+### 🎨 Photoshop
+
+```
+Claude'a sor:
+"Photoshop bağlantımı kontrol et"
+"Desktop/photo.jpg dosyasını aç"
+"Bu görüntüyü 800x600 piksel yap"
+"5 piksel Gaussian Blur uygula"
+"PNG olarak Desktop/output.png'ye kaydet"
+```
+
+---
+
+### 🎬 After Effects
+
+```
+Claude'a sor:
+"After Effects bağlantımı kontrol et"
+"'Intro' comp oluştur (1920x1080, 5s, 30fps)"
+"'HELLO WORLD' yazısı ekle ve fade-in animasyon yap"
+"Desktop/intro.mov olarak render et"
+```
+
+---
+
+### 🔥 Birlikte Kullanım!
+
+```
+Tam video production workflow:
+
+1. Photoshop'ta banner tasarla:
+   "Desktop/banner.psd'yi aç"
+   "Yeni layer oluştur, 'YENİ ÜRÜN' yaz (kırmızı, 96pt)"
+   "PNG olarak kaydet: Desktop/title.png"
+
+2. After Effects'te animasyon yap:
+   "Desktop/title.png'yi import et"
+   "'Product Intro' comp oluştur (1920x1080, 5s)"
+   "Scale animasyonu ekle (0→100%)"
+   "Glow effect ekle"
+   "Render: Desktop/intro.mov"
+
+3. Godot'ta entegre et (opsiyonel):
+   "intro.mov'u Godot projeme import et"
+```
+
+**Sonuç:** Photoshop → After Effects → Godot, hepsi Claude üzerinden! 🎉
+
+---
+
+## 🛠️ Nasıl Çalışır?
+
+```
+┌─────────────────┐
+│ Claude Desktop  │  "Bu görüntüyü 800x600 yap"
+└────────┬────────┘
+         │ MCP Protocol
+         ▼
+┌─────────────────────────┐
+│ MCP Sunucuları (Python) │
+│  - Godot Server         │
+│  - Photoshop Server     │
+│  - After Effects Server │
+└────────┬────────────────┘
+         │
+         │ Mac: AppleScript
+         │ Windows: COM/Win32
+         │ JSX/ExtendScript
+         ▼
+┌─────────────────┐
+│ Lokal Yazılımlar│
+│  - Godot        │
+│  - Photoshop    │
+│  - After Effects│
+└─────────────────┘
+```
+
+**Avantajlar:**
+- ⚡ **Anlık** - gerçek zamanlı kontrol
+- 💰 **Ücretsiz** - API key gerekmez
+- 🔒 **Offline** - internet gerekmez
+- 🎨 **Tam özellikli** - tüm yazılım özellikleri
+- 🤖 **Doğal dil** - konuşarak kontrol
+
+---
+
+## 📋 Gereksinimler
+
+### Yazılım
+- **Python 3.10+**
+- **Claude Desktop** (en güncel sürüm)
+- **MCP SDK** (`pip install mcp`)
+- **pywin32** (sadece Windows için)
+
+### Uygulamalar (İsteğe Bağlı)
+- **Godot Engine** (3.x veya 4.x)
+- **Adobe Photoshop** (2020+)
+- **Adobe After Effects** (2020+)
+
+### İşletim Sistemi
+- ✅ **macOS** (10.15+)
+- ✅ **Windows** (10/11)
+- ✅ **Linux** (Adobe uygulamaları Wine ile)
+
+---
+
+## 🎓 Kullanım Senaryoları
+
+### 🎮 Game Developer
+```
+- Godot'ta oyun geliştir
+- Photoshop'ta UI/asset oluştur
+- After Effects'te intro/cutscene yap
+```
+
+### 🎥 Content Creator (YouTube, TikTok)
+```
+- Photoshop'ta thumbnail tasarla
+- After Effects'te intro/outro oluştur
+- Batch rendering ve automation
+```
+
+### 🎨 Graphic/Motion Designer
+```
+- Photoshop'ta grafik tasarla
+- After Effects'te animasyon ekle
+- Müşteriye hızlı sunum
+```
+
+### 💼 Digital Agency
+```
+- Tüm asset pipeline'ı otomatize et
+- Batch işlemler (logo variations)
+- Brand guidelines uygula
+```
+
+---
+
+## 🔧 Yapılandırma
+
+Kurulum sonrası Claude Desktop config dosyanız:
+
+**Konum:**
+- Mac: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- Linux: `~/.config/Claude/claude_desktop_config.json`
+- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+
+**İçerik:**
 ```json
 {
   "mcpServers": {
     "godot": {
       "command": "python3",
-      "args": [
-        "/TAMAMYOLU/godot_mcp_server.py"
-      ],
-      "env": {
-        "PYTHONUNBUFFERED": "1"
-      }
+      "args": ["/home/user/depo/godot_mcp_server.py"],
+      "env": {"PYTHONUNBUFFERED": "1"}
+    },
+    "photoshop": {
+      "command": "python3",
+      "args": ["/home/user/depo/photoshop_mcp_server.py"],
+      "env": {"PYTHONUNBUFFERED": "1"}
+    },
+    "aftereffects": {
+      "command": "python3",
+      "args": ["/home/user/depo/aftereffects_mcp_server.py"],
+      "env": {"PYTHONUNBUFFERED": "1"}
     }
   }
 }
 ```
 
-**Önemli:**
-- `/TAMAMYOLU/godot_mcp_server.py` kısmını gerçek dosya yolunuzla değiştirin
-- Windows'ta şöyle olmalı: `"C:\\Users\\KullaniciAdi\\depo\\godot_mcp_server.py"`
-- `PYTHONUNBUFFERED=1` Python'un çıktıyı buffer'lamadan göndermesini sağlar
+---
 
-### 3. Claude Desktop'ı Yeniden Başlat
+## 🐛 Sorun Giderme
 
-Yapılandırma değişikliklerinin geçerli olması için Claude Desktop'ı tamamen kapatıp yeniden açın.
+### ❌ "MCP araçlarını göremiyorum"
 
-## Kullanım
+**Çözüm:**
+1. Claude Desktop'ı **tamamen** kapatıp yeniden açın (Cmd+Q)
+2. Config dosyası doğru konumda mı kontrol edin
+3. JSON syntax'ı doğru mu kontrol edin
 
-Claude Desktop'ta şunları sorabilirsiniz:
+---
 
-### Proje Ayarlama
-```
-Godot projem /home/user/MyGame dizininde, bağlan
-```
+### ❌ "Photoshop/After Effects'e bağlanılamadı"
 
-Claude otomatik olarak `set_godot_project` tool'unu kullanacak.
+**Çözüm:**
+1. İlgili uygulama açık mı?
+2. (Mac) System Preferences → Security → Automation izinleri
+3. (Windows) `pip install pywin32` yüklü mü?
 
-### Dosyaları Keşfetme
-```
-Projemde hangi sahneler var?
-```
-```
-Tüm GDScript dosyalarını listele
-```
+---
 
-### Kod Okuma
-```
-scripts/player.gd dosyasını oku
-```
+### ❌ "Godot project not set"
 
-### Kod Yazma
-```
-scripts/enemy.gd adında yeni bir enemy script'i oluştur, temel AI hareket kodu ekle
-```
-
-### Proje Bilgileri
-```
-Proje ayarlarımı göster (project.godot)
-```
-
-## Mevcut Araçlar (Tools)
-
-| Tool | Açıklama |
-|------|----------|
-| `set_godot_project` | Godot proje yolunu ayarla |
-| `list_godot_scenes` | Tüm .tscn dosyalarını listele |
-| `list_godot_scripts` | Tüm .gd dosyalarını listele |
-| `read_godot_script` | GDScript dosyasını oku |
-| `write_godot_script` | GDScript dosyası oluştur/düzenle |
-| `read_godot_scene` | Sahne dosyasını oku |
-| `get_project_info` | project.godot bilgilerini al |
-
-## Hata Ayıklama
-
-### MCP server loglarını görme
-
-MCP sunucusu tüm logları `stderr`'e yazar. Claude Desktop Developer Console'da görebilirsiniz:
-
-**Mac:** `Cmd + Option + Shift + i`
-**Windows/Linux:** `Ctrl + Shift + i`
-
-Console'da şöyle loglar göreceksiniz:
-```
-[GODOT-MCP] INFO: Godot MCP Server başlatılıyor...
-[GODOT-MCP] INFO: MCP server hazır ve bağlantı bekliyor...
-[GODOT-MCP] INFO: Tool çağrıldı: set_godot_project with args: {'path': '/home/user/MyGame'}
-```
-
-### Yaygın Hatalar
-
-#### "mcp paketi bulunamadı"
-```bash
-pip install mcp
-```
-
-#### "Godot proje yolunu ayarlayın" hatası
-Önce Claude'a proje yolunuzu söyleyin:
+**Çözüm:**
 ```
 Godot projem /tam/yol/buraya dizininde
 ```
 
-#### JSON parse hataları devam ediyor
-1. `godot_mcp_server.py` dosyasında `print()` kullanmadığınızdan emin olun
-2. Tüm loglar `logger.info()`, `logger.error()` vb. ile yapılmalı
-3. `logging.basicConfig(stream=sys.stderr)` satırının olduğundan emin olun
+---
 
-## Genişletme
+### 🔍 Developer Console
 
-Yeni özellikler eklemek için:
+Detaylı debug için:
+- **Mac:** `Cmd + Option + Shift + I`
+- **Windows:** `Ctrl + Shift + I`
 
-1. `list_tools()` içinde yeni bir `Tool` tanımlayın
-2. `call_tool()` içinde tool handler'ı ekleyin
-3. İlgili işlevi implement edin
+Console'da server loglarını görebilirsiniz.
 
-Örnek:
+---
+
+## 🎨 Örnek Projeler
+
+### 1. YouTube İçerik Pipeline
+
 ```python
-Tool(
-    name="run_godot_scene",
-    description="Godot sahnesini çalıştır",
-    inputSchema={
-        "type": "object",
-        "properties": {
-            "scene_path": {"type": "string"}
-        }
-    }
-)
+# Photoshop: Thumbnail tasarla
+"Desktop/video_screenshot.jpg'yi aç"
+"'BÖLÜM 5' yazısı ekle, büyük, kırmızı"
+"Desktop/thumbnail.png olarak kaydet"
+
+# After Effects: Intro oluştur
+"'Intro' comp oluştur (1920x1080, 5s)"
+"Logo reveal animasyonu yap"
+"Desktop/intro.mov render et"
+
+# Sonuç: Hazır YouTube içeriği!
 ```
 
-## Lisans
+---
 
-MIT
+### 2. Oyun Asset Pipeline
 
-## Katkıda Bulunma
+```python
+# Photoshop: UI elementi tasarla
+"1920x1080 yeni doküman oluştur"
+"Button tasarla (mavi gradient, rounded)"
+"PNG sequence olarak kaydet (normal, hover, pressed)"
+
+# Godot: Import ve setup
+"Desktop/ui_button_*.png'leri Godot'a import et"
+"Button sahnesini oluştur"
+```
+
+---
+
+### 3. Kurumsal Brand Video
+
+```python
+# Photoshop: Logo ve grafik hazırla
+"Desktop/raw_logo.psd'yi aç"
+"Farklı boyutlarda export et (512, 256, 128)"
+
+# After Effects: Corporate video
+"'Brand Video' comp oluştur (1920x1080, 30s)"
+"Logo'yu import et"
+"Professional animation template uygula"
+"Lower third'ler ekle"
+"H.264 render et"
+```
+
+---
+
+## 📊 İstatistikler
+
+| Metrik | Değer |
+|--------|-------|
+| **Toplam Araç** | 34 |
+| **Sunucu Sayısı** | 3 |
+| **Desteklenen Yazılım** | 3 (Godot, Photoshop, After Effects) |
+| **Toplam Kod Satırı** | ~4800 |
+| **Dokümantasyon Dosyası** | 14 |
+| **Örnek Sayısı** | 50+ |
+
+---
+
+## 🚀 Gelecek Özellikler
+
+Planlanan ek entegrasyonlar:
+
+- [ ] **Illustrator** - Vektör grafik düzenleme
+- [ ] **InDesign** - Sayfa düzeni
+- [ ] **Premiere Pro** - Video editing
+- [ ] **Lightroom** - Fotoğraf düzenleme
+- [ ] **Blender** - 3D modelleme
+- [ ] **Maya** - 3D animasyon
+- [ ] **Unity** - Oyun motoru
+- [ ] **Unreal Engine** - Oyun motoru
+
+**Hangisini istersiniz?** Issue açın veya PR gönderin!
+
+---
+
+## 🤝 Katkıda Bulunma
 
 Pull request'ler memnuniyetle karşılanır!
 
-## Destek
+**Eklenebilecek özellikler:**
+- Yeni Adobe yazılım entegrasyonları
+- Daha fazla Godot fonksiyonu
+- Batch processing iyileştirmeleri
+- Yeni animasyon şablonları
+- Daha fazla örnek ve tutorial
+
+---
+
+## 📄 Lisans
+
+MIT
+
+---
+
+## 💡 İpuçları
+
+1. **Performans:** Büyük dosyalarla çalışırken uygulamalara yeterli RAM ayırın
+2. **Güvenlik:** JSX scriptleri güçlüdür, trusted kaynaklardan çalıştırın
+3. **Backup:** Önemli dosyalarda işlem yapmadan önce backup alın
+4. **Workflow:** Sık tekrar eden işlemleri not edin, Claude'a tek komutla yaptırın
+
+---
+
+## 📞 Destek
 
 Sorun yaşıyorsanız:
-1. Developer Console'daki logları kontrol edin
-2. `godot_mcp_server.py` dosyasını elle çalıştırıp hata olup olmadığını görün:
+
+1. **Dokümantasyonu okuyun:**
+   - [QUICKSTART_TR.md](QUICKSTART_TR.md) - Hızlı başlangıç
+   - İlgili sunucu dokümantasyonu
+
+2. **Developer Console'u kontrol edin:**
+   - Cmd+Option+Shift+I (Mac)
+   - Ctrl+Shift+I (Windows)
+
+3. **Server'ı manuel test edin:**
    ```bash
    python3 godot_mcp_server.py
+   python3 photoshop_mcp_server.py
+   python3 aftereffects_mcp_server.py
    ```
-3. Issue açın veya yardım isteyin
+
+4. **Issue açın:**
+   - GitHub Issues
+   - Detaylı hata mesajları ekleyin
+   - Platform ve versiyon belirtin
+
+---
+
+## 🎉 Başarılar!
+
+Artık Claude Desktop ile Godot, Photoshop ve After Effects'i kontrol edebilirsiniz!
+
+**Tek komut:**
+```bash
+./install_all_mcp.sh
+```
+
+**Sonuç:**
+- ✅ 3 sunucu çalışıyor
+- ✅ 34 araç kullanıma hazır
+- ✅ Sınırsız yaratıcılık potansiyeli
+
+**Harika projeler oluşturun! 🚀✨**
+
+---
+
+## 🔗 Bağlantılar
+
+- [MCP Protocol Docs](https://modelcontextprotocol.io/)
+- [Claude Desktop](https://claude.ai/desktop)
+- [Godot Engine](https://godotengine.org/)
+- [Adobe Creative Cloud](https://www.adobe.com/creativecloud.html)
+- [ExtendScript Guide](https://www.adobe.com/devnet/scripting.html)
+
+---
+
+**⭐ Bu projeyi beğendiyseniz yıldız vermeyi unutmayın!**

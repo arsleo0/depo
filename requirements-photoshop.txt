@@ -1,0 +1,7 @@
+# Photoshop MCP Server Requirements
+
+# MCP SDK (gerekli)
+mcp>=0.9.0
+
+# Windows için COM automation (sadece Windows'ta gerekli)
+pywin32>=306; sys_platform == 'win32'
