@@ -1,0 +1,23 @@
+# TripoSR MCP Server Requirements
+
+# MCP SDK
+mcp>=1.0.0
+
+# PyTorch (CUDA destekli veya CPU)
+torch>=2.0.0
+torchvision>=0.15.0
+
+# Görüntü işleme
+Pillow>=10.0.0
+numpy>=1.24.0
+
+# 3D mesh işleme
+trimesh>=3.23.0
+pygltflib>=1.16.0
+
+# Arka plan kaldırma (opsiyonel)
+rembg>=2.0.50
+
+# TripoSR (GitHub'dan yüklenmeli)
+# git clone https://github.com/VAST-AI-Research/TripoSR.git
+# cd TripoSR && pip install -e .

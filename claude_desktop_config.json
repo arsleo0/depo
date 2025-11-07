@@ -8,6 +8,33 @@
       "env": {
         "PYTHONUNBUFFERED": "1"
       }
+    },
+    "photoshop": {
+      "command": "python3",
+      "args": [
+        "/home/user/depo/photoshop_mcp_server.py"
+      ],
+      "env": {
+        "PYTHONUNBUFFERED": "1"
+      }
+    },
+    "aftereffects": {
+      "command": "python3",
+      "args": [
+        "/home/user/depo/aftereffects_mcp_server.py"
+      ],
+      "env": {
+        "PYTHONUNBUFFERED": "1"
+      }
+    },
+    "triposr": {
+      "command": "python3",
+      "args": [
+        "/home/user/depo/triposr_mcp_server.py"
+      ],
+      "env": {
+        "PYTHONUNBUFFERED": "1"
+      }
     }
   }
 }

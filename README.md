@@ -1,6 +1,6 @@
 # 🚀 MCP Sunucuları - Claude Desktop Entegrasyonları
 
-Claude Desktop ile **Godot, Photoshop ve After Effects**'i kontrol edin!
+Claude Desktop ile **Godot, Photoshop, After Effects ve TripoSR**'ı kontrol edin!
 
 Bu proje, Claude Desktop'ın MCP (Model Context Protocol) üzerinden lokal yazılımlarla konuşmasını sağlayan tam özellikli sunucular içerir.
 
@@ -29,7 +29,15 @@ Bu proje, Claude Desktop'ın MCP (Model Context Protocol) üzerinden lokal yazı
 - Hazır animasyon şablonları
 - **15 araç**
 
-**TOPLAM: 34 araç, tek bir Claude arayüzünden!**
+### 🔷 TripoSR MCP Server
+- Görüntüden 3D model oluşturma
+- Otomatik arka plan kaldırma
+- Toplu işlem (batch processing)
+- OBJ ve GLB format desteği
+- GPU/CUDA hızlandırma
+- **5 araç**
+
+**TOPLAM: 39 araç, tek bir Claude arayüzünden!**
 
 ---
 
@@ -46,6 +54,7 @@ cd ~/depo
 ./install_all_mcp.sh
 
 # 3. İlgili uygulamaları açın (Godot, Photoshop, After Effects)
+#    TripoSR için uygulama açmanıza gerek yok (arka planda çalışır)
 
 # 4. Claude Desktop'ı yeniden başlatın (Cmd+Q / tamamen kapat)
 
@@ -57,7 +66,7 @@ Claude'da yazın:
 MCP araçlarımı listele
 ```
 
-✅ **34 araç görüyorsanız, kurulum başarılı!**
+✅ **39 araç görüyorsanız, kurulum başarılı!**
 
 ---
 
@@ -72,6 +81,12 @@ MCP araçlarımı listele
 
 # Godot + Photoshop
 ./install_all_mcp.sh godot photoshop
+
+# Sadece TripoSR (3D model oluşturma)
+./install_triposr_mcp.sh
+
+# Hepsi + TripoSR
+./install_all_mcp.sh && ./install_triposr_mcp.sh
 ```
 
 ---
@@ -83,6 +98,7 @@ MCP araçlarımı listele
 | **🎮 Godot** | [GODOT_README.md](GODOT_README.md) | [SETUP_TR.md](SETUP_TR.md) | GODOT_README.md |
 | **🎨 Photoshop** | [PHOTOSHOP_CHEATSHEET.md](PHOTOSHOP_CHEATSHEET.md) | [PHOTOSHOP_WORKFLOW_TR.md](PHOTOSHOP_WORKFLOW_TR.md) | [PHOTOSHOP_EXAMPLES.md](PHOTOSHOP_EXAMPLES.md) (30+) |
 | **🎬 After Effects** | [AFTEREFFECTS_QUICKSTART.md](AFTEREFFECTS_QUICKSTART.md) | - | [AFTEREFFECTS_EXAMPLES.md](AFTEREFFECTS_EXAMPLES.md) (22+) |
+| **🔷 TripoSR** | [TRIPOSR_QUICKSTART.md](TRIPOSR_QUICKSTART.md) | - | TRIPOSR_QUICKSTART.md (10+) |
 | **🚀 Hepsi** | **[QUICKSTART_TR.md](QUICKSTART_TR.md)** ⭐ | - | - |
 
 ---
@@ -126,6 +142,18 @@ Claude'a sor:
 
 ---
 
+### 🔷 TripoSR (3D Model Oluşturma)
+
+```
+Claude'a sor:
+"TripoSR durumunu kontrol et"
+"Desktop/mug.jpg görüntüsünden 3D model oluştur"
+"Oluşturulan modeli mug_3d olarak kaydet"
+"Oluşturduğum 3D modelleri listele"
+```
+
+---
+
 ### 🔥 Birlikte Kullanım!
 
 ```
@@ -151,6 +179,31 @@ Tam video production workflow:
 
 ---
 
+```
+3D oyun asset pipeline:
+
+1. TripoSR ile gerçek nesneyi 3D'ye çevir:
+   "Desktop/chair.jpg'den 3D model oluştur"
+
+2. Blender'da düzenle (manuel):
+   - Modeli temizle
+   - UV unwrap yap
+   - Texture ekle
+
+3. Photoshop'ta texture oluştur:
+   "1024x1024 yeni doküman"
+   "Ahşap texture uygula"
+   "Kaydet: Desktop/chair_texture.png"
+
+4. Godot'a import et:
+   "chair_3d.glb'yi Godot projeme kopyala"
+   "Texture'ı chair_texture.png olarak ata"
+```
+
+**Sonuç:** Gerçek Dünya → TripoSR → Blender → Photoshop → Godot, tam 3D pipeline! 🎮
+
+---
+
 ## 🛠️ Nasıl Çalışır?
 
 ```
@@ -164,17 +217,20 @@ Tam video production workflow:
 │  - Godot Server         │
 │  - Photoshop Server     │
 │  - After Effects Server │
+│  - TripoSR Server       │
 └────────┬────────────────┘
          │
          │ Mac: AppleScript
          │ Windows: COM/Win32
          │ JSX/ExtendScript
+         │ PyTorch + TripoSR AI
          ▼
 ┌─────────────────┐
 │ Lokal Yazılımlar│
 │  - Godot        │
 │  - Photoshop    │
 │  - After Effects│
+│  - TripoSR AI   │
 └─────────────────┘
 ```
 
@@ -237,6 +293,14 @@ Tam video production workflow:
 - Brand guidelines uygula
 ```
 
+### 🏗️ 3D Modelleme & AR/VR
+```
+- Gerçek nesnelerin 3D dijital kopyalarını oluştur
+- E-ticaret için AR uygulamaları
+- Oyun ve simülasyon için asset üret
+- Müze ve kültürel miras dijitalleştirme
+```
+
 ---
 
 ## 🔧 Yapılandırma
@@ -265,6 +329,11 @@ Kurulum sonrası Claude Desktop config dosyanız:
     "aftereffects": {
       "command": "python3",
       "args": ["/home/user/depo/aftereffects_mcp_server.py"],
+      "env": {"PYTHONUNBUFFERED": "1"}
+    },
+    "triposr": {
+      "command": "python3",
+      "args": ["/home/user/depo/triposr_mcp_server.py"],
       "env": {"PYTHONUNBUFFERED": "1"}
     }
   }
@@ -368,12 +437,12 @@ Console'da server loglarını görebilirsiniz.
 
 | Metrik | Değer |
 |--------|-------|
-| **Toplam Araç** | 34 |
-| **Sunucu Sayısı** | 3 |
-| **Desteklenen Yazılım** | 3 (Godot, Photoshop, After Effects) |
-| **Toplam Kod Satırı** | ~4800 |
-| **Dokümantasyon Dosyası** | 14 |
-| **Örnek Sayısı** | 50+ |
+| **Toplam Araç** | 39 |
+| **Sunucu Sayısı** | 4 |
+| **Desteklenen Yazılım** | 4 (Godot, Photoshop, After Effects, TripoSR) |
+| **Toplam Kod Satırı** | ~5500 |
+| **Dokümantasyon Dosyası** | 15 |
+| **Örnek Sayısı** | 60+ |
 
 ---
 
@@ -381,14 +450,16 @@ Console'da server loglarını görebilirsiniz.
 
 Planlanan ek entegrasyonlar:
 
+- [x] **TripoSR** - AI ile görüntüden 3D model oluşturma ✅
 - [ ] **Illustrator** - Vektör grafik düzenleme
 - [ ] **InDesign** - Sayfa düzeni
 - [ ] **Premiere Pro** - Video editing
 - [ ] **Lightroom** - Fotoğraf düzenleme
-- [ ] **Blender** - 3D modelleme
+- [ ] **Blender** - 3D modelleme ve düzenleme
 - [ ] **Maya** - 3D animasyon
 - [ ] **Unity** - Oyun motoru
 - [ ] **Unreal Engine** - Oyun motoru
+- [ ] **Stable Diffusion** - AI görüntü oluşturma
 
 **Hangisini istersiniz?** Issue açın veya PR gönderin!
 
@@ -458,9 +529,10 @@ Artık Claude Desktop ile Godot, Photoshop ve After Effects'i kontrol edebilirsi
 ```
 
 **Sonuç:**
-- ✅ 3 sunucu çalışıyor
-- ✅ 34 araç kullanıma hazır
+- ✅ 4 sunucu çalışıyor
+- ✅ 39 araç kullanıma hazır
 - ✅ Sınırsız yaratıcılık potansiyeli
+- ✅ AI destekli 3D model oluşturma
 
 **Harika projeler oluşturun! 🚀✨**
 
