@@ -1,0 +1,45 @@
+# 3D Print Automation Ecosystem Configuration
+# Windows 11 için örnek konfigürasyon
+
+# Pazar Araştırması
+market_research:
+  etsy_api_key: ""  # Etsy API key (opsiyonel)
+  google_trends_enabled: true
+  scraping_enabled: true
+  cache_duration_hours: 24
+
+# 3D Model Generation
+model_generation:
+  blender_executable: "C:\\Program Files\\Blender Foundation\\Blender 4.0\\blender.exe"
+  hyper3d_api_key: ""  # Hyper3D API key
+  output_directory: "C:\\Users\\YourUsername\\3D_Models"
+  default_format: "stl"
+
+# Slicer
+slicer:
+  bambu_studio_path: "C:\\Program Files\\BambuStudio\\bambu-studio-console.exe"
+  default_printer: "A1"
+  default_material: "PLA"
+  default_quality: "standard"
+  output_directory: "C:\\Users\\YourUsername\\GCode"
+
+# Printer
+printer:
+  bambu_a1_ip: "192.168.1.100"  # Yazıcının lokal IP adresi
+  bambu_a1_access_code: ""  # Yazıcı access code/token
+  bambu_a1_model: "A1"
+  camera_enabled: true
+  notification_enabled: true
+
+# Workflow
+workflow:
+  auto_mode: false
+  database_path: "C:\\Users\\YourUsername\\3d_print_ecosystem\\projects.db"
+  output_directory: "C:\\Users\\YourUsername\\3d_print_ecosystem\\output"
+  log_level: "INFO"
+
+# Genel Ayarlar
+general:
+  temp_directory: "C:\\Users\\YourUsername\\AppData\\Local\\Temp\\3d_print"
+  max_concurrent_jobs: 5
+  enable_telemetry: false
