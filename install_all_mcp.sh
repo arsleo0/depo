@@ -43,6 +43,7 @@ CONFIG_FILE="$CLAUDE_CONFIG_DIR/claude_desktop_config.json"
 INSTALL_GODOT=false
 INSTALL_PHOTOSHOP=false
 INSTALL_AFTEREFFECTS=false
+INSTALL_OPENSCAD=false
 
 if [ $# -eq 0 ]; then
     # Argüman yoksa hepsini kur
@@ -50,6 +51,7 @@ if [ $# -eq 0 ]; then
     INSTALL_GODOT=true
     INSTALL_PHOTOSHOP=true
     INSTALL_AFTEREFFECTS=true
+    INSTALL_OPENSCAD=true
 else
     # Argümanlara göre seç
     echo "📦 Kurulum modu: SEÇİLİ SUNUCULAR"
@@ -67,14 +69,19 @@ else
                 INSTALL_AFTEREFFECTS=true
                 echo "   ✓ After Effects"
                 ;;
+            openscad|scad)
+                INSTALL_OPENSCAD=true
+                echo "   ✓ OpenSCAD"
+                ;;
             all)
                 INSTALL_GODOT=true
                 INSTALL_PHOTOSHOP=true
                 INSTALL_AFTEREFFECTS=true
+                INSTALL_OPENSCAD=true
                 echo "   ✓ Hepsi"
                 ;;
             *)
-                echo "   ⚠️  Bilinmeyen: $arg (godot|photoshop|aftereffects|all)"
+                echo "   ⚠️  Bilinmeyen: $arg (godot|photoshop|aftereffects|openscad|all)"
                 ;;
         esac
     done
@@ -171,6 +178,15 @@ if [ "$INSTALL_AFTEREFFECTS" = true ]; then
     fi
 fi
 
+if [ "$INSTALL_OPENSCAD" = true ]; then
+    if [ -f "$SCRIPT_DIR/openscad_mcp_server.py" ]; then
+        echo "✅ openscad_mcp_server.py bulundu"
+    else
+        echo "❌ openscad_mcp_server.py bulunamadı!"
+        SERVERS_FOUND=false
+    fi
+fi
+
 if [ "$SERVERS_FOUND" = false ]; then
     echo ""
     echo "❌ HATA: Bazı sunucu dosyaları bulunamadı!"
@@ -261,6 +277,26 @@ if [ "$INSTALL_AFTEREFFECTS" = true ]; then
 EOF
 fi
 
+# OpenSCAD ekle
+if [ "$INSTALL_OPENSCAD" = true ]; then
+    # Virgül ekle (eğer öncesinde başka server varsa)
+    if [ "$INSTALL_GODOT" = true ] || [ "$INSTALL_PHOTOSHOP" = true ] || [ "$INSTALL_AFTEREFFECTS" = true ]; then
+        echo "," >> "$CONFIG_FILE"
+    fi
+
+    cat >> "$CONFIG_FILE" << EOF
+    "openscad": {
+      "command": "python3",
+      "args": [
+        "$SCRIPT_DIR/openscad_mcp_server.py"
+      ],
+      "env": {
+        "PYTHONUNBUFFERED": "1"
+      }
+    }
+EOF
+fi
+
 # JSON'u kapat
 cat >> "$CONFIG_FILE" << EOF
 
@@ -309,6 +345,10 @@ if [ "$INSTALL_AFTEREFFECTS" = true ]; then
     test_server "After Effects" "$SCRIPT_DIR/aftereffects_mcp_server.py"
 fi
 
+if [ "$INSTALL_OPENSCAD" = true ]; then
+    test_server "OpenSCAD" "$SCRIPT_DIR/openscad_mcp_server.py"
+fi
+
 # ========================================================================
 # TAMAMLANDI!
 # ========================================================================
@@ -322,14 +362,16 @@ echo "📋 Kurulan sunucular:"
 [ "$INSTALL_GODOT" = true ] && echo "   ✅ Godot MCP Server"
 [ "$INSTALL_PHOTOSHOP" = true ] && echo "   ✅ Photoshop MCP Server"
 [ "$INSTALL_AFTEREFFECTS" = true ] && echo "   ✅ After Effects MCP Server"
+[ "$INSTALL_OPENSCAD" = true ] && echo "   ✅ OpenSCAD MCP Server"
 echo ""
 
 echo "📋 Sıradaki adımlar:"
 echo ""
-echo "1️⃣  İlgili uygulamaları açın:"
+echo "1️⃣  İlgili uygulamaları açın/yükleyin:"
 [ "$INSTALL_GODOT" = true ] && echo "   - Godot (ve bir proje açın)"
 [ "$INSTALL_PHOTOSHOP" = true ] && echo "   - Adobe Photoshop"
 [ "$INSTALL_AFTEREFFECTS" = true ] && echo "   - Adobe After Effects"
+[ "$INSTALL_OPENSCAD" = true ] && echo "   - OpenSCAD (komut satırından erişilebilir olmalı)"
 echo ""
 
 echo "2️⃣  Claude Desktop'ı yeniden başlatın:"
@@ -349,6 +391,7 @@ echo "4️⃣  Bağlantıları test edin:"
 [ "$INSTALL_GODOT" = true ] && echo '   "Godot projem hakkında bilgi ver"'
 [ "$INSTALL_PHOTOSHOP" = true ] && echo '   "Photoshop bağlantımı kontrol et"'
 [ "$INSTALL_AFTEREFFECTS" = true ] && echo '   "After Effects bağlantımı kontrol et"'
+[ "$INSTALL_OPENSCAD" = true ] && echo '   "OpenSCAD bağlantımı kontrol et ve bir küp oluştur"'
 echo ""
 
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -357,6 +400,7 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 [ "$INSTALL_GODOT" = true ] && echo "Godot:          cat $SCRIPT_DIR/README.md"
 [ "$INSTALL_PHOTOSHOP" = true ] && echo "Photoshop:      cat $SCRIPT_DIR/PHOTOSHOP_WORKFLOW_TR.md"
 [ "$INSTALL_AFTEREFFECTS" = true ] && echo "After Effects:  cat $SCRIPT_DIR/AFTEREFFECTS_QUICKSTART.md"
+[ "$INSTALL_OPENSCAD" = true ] && echo "OpenSCAD:       cat $SCRIPT_DIR/OPENSCAD_QUICKSTART_TR.md"
 echo ""
 
 echo "🎉 Başarılar! Harika projeler oluşturun!"
