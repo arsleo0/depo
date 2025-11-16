@@ -1,0 +1,38 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Pipeline - Single Image",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/image_to_3d.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--image",
+                "input/test.jpg",
+                "--category",
+                "TEST"
+            ],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Python: Pipeline - Batch",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/image_to_3d.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--batch"
+            ],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Python: Verify Installation",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/verify_installation.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}
