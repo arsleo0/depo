@@ -1,0 +1,180 @@
+# Image-to-3D Pipeline Configuration
+# Production settings for 3D printing business
+
+# System Settings
+system:
+  # Auto-detect GPU or use CPU
+  device: "auto"  # Options: auto, cuda, cpu
+  # Fallback to CPU if GPU OOM
+  auto_fallback: true
+  # Number of threads for CPU processing
+  num_threads: 4
+
+# Image Preprocessing
+preprocessing:
+  # Supported input formats
+  input_formats: ["jpg", "jpeg", "png", "heic", "webp"]
+  # Target resolution for processing (higher = better quality but slower)
+  target_resolution: 1024  # Options: 512, 1024, 2048
+  # Background removal settings
+  background_removal:
+    enabled: true
+    alpha_matting: true
+    alpha_matting_foreground_threshold: 240
+    alpha_matting_background_threshold: 10
+  # Auto-centering and padding
+  auto_center: true
+  padding_percent: 10  # Add 10% padding around object
+
+# Depth Estimation
+depth_estimation:
+  # MiDaS model type
+  model: "DPT_Large"  # Options: DPT_Large, DPT_Hybrid, MiDaS_small
+  # Depth map smoothing
+  bilateral_filter:
+    enabled: true
+    diameter: 9
+    sigma_color: 75
+    sigma_space: 75
+  # Depth normalization
+  normalize_depth: true
+  invert_depth: false
+  # Hole filling
+  fill_holes: true
+
+# Mesh Generation
+mesh_generation:
+  # Point cloud density
+  point_cloud_density: "high"  # Options: low, medium, high
+  # Surface reconstruction method
+  reconstruction_method: "poisson"  # Options: poisson, ball_pivoting
+  # Poisson reconstruction settings
+  poisson:
+    depth: 9  # Higher = more detail (6-12)
+    width: 0
+    scale: 1.1
+    linear_fit: false
+  # Mesh simplification
+  simplification:
+    enabled: true
+    target_faces_detailed: 50000
+    target_faces_simple: 10000
+    mode: "detailed"  # Options: detailed, simple, auto
+  # Ensure watertight mesh
+  make_watertight: true
+
+# 3D Printing Optimization
+printing:
+  # Default scale settings
+  max_dimension_mm: 100  # Maximum size in millimeters
+  # Minimum wall thickness (for structural integrity)
+  min_wall_thickness_mm: 2.0
+  # Auto-fix non-manifold geometry
+  fix_non_manifold: true
+  # Optimize orientation for printing
+  auto_orient: true
+  # Add support markers
+  support_markers:
+    enabled: true
+    overhang_angle: 45  # Degrees
+  # Resin printing features
+  resin_printing:
+    add_drain_holes: true
+    drain_hole_diameter_mm: 3.0
+    hollow_interior: false
+    wall_thickness_mm: 2.5
+
+# Business Settings
+business:
+  # Pricing
+  pricing:
+    # Material cost per gram (PLA)
+    pla_cost_per_gram: 0.02  # EUR
+    # Markup multiplier for retail price
+    retail_markup: 5.0
+    # Additional fixed costs per print
+    fixed_cost_per_print: 2.00  # EUR
+  # SKU generation
+  sku:
+    format: "DATE-CATEGORY-NUMBER"  # Example: 20231115-DECO-001
+    default_category: "PROD"
+    counter_file: "logs/sku_counter.txt"
+  # Print time estimation
+  print_estimation:
+    # Printing speed in mm/s
+    print_speed_mm_s: 60
+    # Layering height in mm
+    layer_height_mm: 0.2
+    # Add time for supports (percentage)
+    support_time_multiplier: 1.3
+
+# Export Settings
+export:
+  # STL export
+  stl:
+    binary: true  # Binary STL is smaller
+    units: "mm"   # Millimeters
+    precision: 6  # Decimal places
+  # Preview generation
+  previews:
+    enabled: true
+    # Number of angles to render
+    num_angles: 4
+    # Image size for previews
+    resolution: [800, 800]
+    # Background color (RGB)
+    background_color: [255, 255, 255]
+    # Show wireframe
+    show_wireframe: false
+  # Thumbnail for marketplace
+  thumbnail:
+    enabled: true
+    size: [512, 512]  # 1:1 ratio
+    background_color: [255, 255, 255]
+    format: "png"
+  # Metadata export
+  metadata:
+    format: "json"
+    include_stats: true
+    include_pricing: true
+
+# Batch Processing
+batch:
+  # Process all files in input folder
+  process_all: true
+  # Show progress bar
+  show_progress: true
+  # Resume from last processed
+  resume_on_interrupt: true
+  # State file for resuming
+  state_file: "logs/batch_state.json"
+  # Generate CSV report
+  generate_report: true
+  report_file: "output/reports/batch_report.csv"
+  # Desktop notification on completion
+  notify_on_complete: true
+
+# Logging
+logging:
+  # Log level
+  level: "INFO"  # Options: DEBUG, INFO, WARNING, ERROR
+  # Log file location
+  file: "logs/pipeline.log"
+  # Console output
+  console: true
+  # Detailed timing information
+  timing: true
+  # Save debug images
+  save_debug_images: false
+  debug_image_dir: "logs/debug"
+
+# Error Handling
+error_handling:
+  # Retry on GPU OOM
+  retry_on_oom: true
+  max_retries: 3
+  # Continue on error during batch processing
+  continue_on_error: true
+  # Save error report
+  save_error_report: true
+  error_report_file: "logs/errors.json"

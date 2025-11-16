@@ -1,0 +1,44 @@
+# Image-to-3D Pipeline Dependencies
+# For production 3D printing business
+
+# Core Deep Learning
+torch>=2.0.0
+torchvision>=0.15.0
+
+# MiDaS and depth estimation
+timm>=0.9.0
+opencv-python>=4.8.0
+opencv-contrib-python>=4.8.0
+
+# 3D Processing
+open3d>=0.17.0
+trimesh>=4.0.0
+numpy>=1.24.0
+scipy>=1.11.0
+
+# Image Processing
+Pillow>=10.0.0
+pillow-heif>=0.13.0  # For HEIC support
+rembg>=2.0.50
+scikit-image>=0.21.0
+
+# Utilities
+pyyaml>=6.0
+tqdm>=4.65.0
+matplotlib>=3.7.0
+
+# Mesh processing and repair
+pymeshlab>=2022.2
+pyvista>=0.42.0
+
+# Business features
+pandas>=2.0.0
+
+# Notifications (cross-platform)
+plyer>=2.1.0
+
+# Logging
+colorlog>=6.7.0
+
+# HTTP requests for downloading models
+requests>=2.31.0
