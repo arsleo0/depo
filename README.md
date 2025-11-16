@@ -1,479 +1,384 @@
-# 🚀 MCP Sunucuları - Claude Desktop Entegrasyonları
+# Embodied AI EEG Foundation
 
-Claude Desktop ile **Godot, Photoshop ve After Effects**'i kontrol edin!
+A modular, privacy-first system for collecting EEG data during real-world scenarios. Designed for grounded, embodied AI learning where Claude learns from your actual experiences in the physical world.
 
-Bu proje, Claude Desktop'ın MCP (Model Context Protocol) üzerinden lokal yazılımlarla konuşmasını sağlayan tam özellikli sunucular içerir.
+## 🧠 Project Vision
 
----
+This system enables you to:
+- Collect EEG brain activity data during real-world scenarios
+- Combine multimodal data (EEG + GPS + audio notes + timestamps)
+- Build a grounded dataset of embodied experiences
+- Eventually train AI models on situated, real-world cognitive data
 
-## ✨ Özellikler
+**Privacy First**: All data stays local on your machine. Nothing is uploaded without your explicit control.
 
-### 🎮 Godot MCP Server
-- Proje keşfi ve sahne yönetimi
-- GDScript okuma/yazma
-- Proje ayarlarını inceleme
-- **7 araç**
+## 📋 Phase 1 Status (Current)
 
-### 🎨 Photoshop MCP Server
-- Görüntü düzenleme ve layer yönetimi
-- Filtreler (Blur, Sharpen, Brightness)
-- Batch işlemler
-- JSX script desteği
-- **12 araç**
+✅ **IMPLEMENTED:**
+- Abstract EEG device interface
+- Simulated EEG data generator (for testing before Muse 2 arrives)
+- HDF5 data logger with compression
+- JSON metadata management
+- Scenario execution framework
+- CLI tools for testing and data collection
+- Configuration system (YAML)
+- Cross-platform Python architecture
 
-### 🎬 After Effects MCP Server
-- Composition oluşturma
-- Text ve solid layer'lar
-- Keyframe animasyonları
-- Video rendering (H.264, ProRes)
-- Hazır animasyon şablonları
-- **15 araç**
+⏳ **PLANNED (Next Phases):**
+- Real Muse 2 device integration (when hardware arrives)
+- GPS track parsing and synchronization
+- Audio note integration
+- Data visualization tools
+- Web interface for mobile access
+- Claude AI analysis integration
 
-**TOPLAM: 34 araç, tek bir Claude arayüzünden!**
+## 🏗️ Architecture
 
----
+```
+embodied_ai/
+├── devices/           # EEG device interfaces
+│   ├── base.py       # Abstract EEGDevice class
+│   ├── simulator.py  # Fake data generator (for testing)
+│   └── muse.py       # Muse 2 integration (stub)
+│
+├── data/             # Data logging
+│   ├── logger.py     # HDF5 EEG logger
+│   └── metadata.py   # JSON metadata manager
+│
+├── scenarios/        # Scenario framework
+│   ├── base.py       # Scenario base class
+│   └── runner.py     # Scenario execution engine
+│
+└── utils/            # Utilities
+    ├── config.py     # YAML config loader
+    └── sync.py       # Timestamp synchronization
 
-## 🚀 Hızlı Kurulum (5 Dakika!)
+data/                 # Data storage (gitignored)
+├── raw/             # EEG data (HDF5)
+├── scenarios/       # Scenario metadata (JSON)
+├── gps/             # GPS tracks (GPX)
+├── audio/           # Voice recordings
+└── logs/            # System logs
 
-### Seçenek 1: Hepsini Birden Kur (Önerilen)
+scripts/             # CLI tools
+├── test_connection.py  # Device tester
+├── run_scenario.py     # Scenario runner
+└── view_data.py        # Data viewer
+```
+
+### Design Patterns
+
+**Abstract Device Interface**: Easy to swap between simulator and real Muse 2 when it arrives.
+
+**Modular Data Storage**:
+- EEG data → HDF5 (efficient, compressed, industry standard)
+- Metadata → JSON (human-readable, easy to edit)
+- Config → YAML (user-friendly)
+
+**Scenario Framework**: Extensible base class for custom scenarios.
+
+## 🚀 Quick Start
+
+### 1. Installation
 
 ```bash
-# 1. Repository'yi klonlayın
-git clone <repo-url> ~/depo
-cd ~/depo
+# Install dependencies
+pip install -r requirements.txt
 
-# 2. Tek komutla tüm sunucuları kurun
-./install_all_mcp.sh
-
-# 3. İlgili uygulamaları açın (Godot, Photoshop, After Effects)
-
-# 4. Claude Desktop'ı yeniden başlatın (Cmd+Q / tamamen kapat)
-
-# 5. Test edin!
+# Verify installation
+python scripts/test_connection.py
 ```
 
-Claude'da yazın:
-```
-MCP araçlarımı listele
-```
-
-✅ **34 araç görüyorsanız, kurulum başarılı!**
-
----
-
-### Seçenek 2: Sadece İstediğini Kur
+### 2. Test EEG Connection
 
 ```bash
-# Sadece Photoshop
-./install_all_mcp.sh photoshop
-
-# Photoshop + After Effects
-./install_all_mcp.sh photoshop aftereffects
-
-# Godot + Photoshop
-./install_all_mcp.sh godot photoshop
+# Test with simulator (no hardware needed)
+python scripts/test_connection.py
 ```
 
----
+This verifies:
+- Device connection
+- Data streaming
+- Sample data quality
 
-## 📚 Detaylı Dokümantasyon
+### 3. Run Your First Scenario
 
-| Sunucu | Hızlı Başlangıç | Rehber | Örnekler |
-|--------|-----------------|--------|----------|
-| **🎮 Godot** | [GODOT_README.md](GODOT_README.md) | [SETUP_TR.md](SETUP_TR.md) | GODOT_README.md |
-| **🎨 Photoshop** | [PHOTOSHOP_CHEATSHEET.md](PHOTOSHOP_CHEATSHEET.md) | [PHOTOSHOP_WORKFLOW_TR.md](PHOTOSHOP_WORKFLOW_TR.md) | [PHOTOSHOP_EXAMPLES.md](PHOTOSHOP_EXAMPLES.md) (30+) |
-| **🎬 After Effects** | [AFTEREFFECTS_QUICKSTART.md](AFTEREFFECTS_QUICKSTART.md) | - | [AFTEREFFECTS_EXAMPLES.md](AFTEREFFECTS_EXAMPLES.md) (22+) |
-| **🚀 Hepsi** | **[QUICKSTART_TR.md](QUICKSTART_TR.md)** ⭐ | - | - |
+```bash
+# List available scenarios
+python scripts/run_scenario.py --list
 
----
+# Run baseline resting state (5 minutes)
+python scripts/run_scenario.py baseline_rest
 
-## 🎯 Kullanım Örnekleri
+# Run with custom duration (300 seconds)
+python scripts/run_scenario.py meditation --duration 300
 
-### 🎮 Godot
-
-```
-Claude'a sor:
-"Godot projem /home/user/MyGame dizininde, bağlan"
-"Projemde hangi sahneler var?"
-"scripts/player.gd dosyasını oku"
-"Yeni bir enemy.gd scripti oluştur"
+# Run until manually stopped (Ctrl+C)
+python scripts/run_scenario.py focused_task --manual
 ```
 
----
+### 4. View Recorded Data
 
-### 🎨 Photoshop
+```bash
+# List all recordings
+python scripts/view_data.py --list
 
-```
-Claude'a sor:
-"Photoshop bağlantımı kontrol et"
-"Desktop/photo.jpg dosyasını aç"
-"Bu görüntüyü 800x600 piksel yap"
-"5 piksel Gaussian Blur uygula"
-"PNG olarak Desktop/output.png'ye kaydet"
+# View specific recording
+python scripts/view_data.py data/scenarios/baseline_rest_20250116_120000.json
+python scripts/view_data.py data/raw/baseline_rest_20250116_120000.h5
 ```
 
----
+## 📖 Predefined Scenarios
 
-### 🎬 After Effects
+### baseline_rest (5 min)
+Resting state baseline. Sit quietly with eyes closed. Establishes your baseline brain activity.
 
-```
-Claude'a sor:
-"After Effects bağlantımı kontrol et"
-"'Intro' comp oluştur (1920x1080, 5s, 30fps)"
-"'HELLO WORLD' yazısı ekle ve fade-in animasyon yap"
-"Desktop/intro.mov olarak render et"
-```
+### focused_task (10 min)
+Work on a challenging cognitive task. Measures focused attention and problem-solving states.
 
----
+### meditation (10 min)
+Meditation session. Measures calm, mindful awareness states.
 
-### 🔥 Birlikte Kullanım!
+### physical_activity (15 min)
+Light exercise or walking. Measures brain activity during movement.
 
-```
-Tam video production workflow:
+### creative_work (15 min)
+Creative activities (writing, drawing, brainstorming). Measures creative cognitive states.
 
-1. Photoshop'ta banner tasarla:
-   "Desktop/banner.psd'yi aç"
-   "Yeni layer oluştur, 'YENİ ÜRÜN' yaz (kırmızı, 96pt)"
-   "PNG olarak kaydet: Desktop/title.png"
+## 🔧 Configuration
 
-2. After Effects'te animasyon yap:
-   "Desktop/title.png'yi import et"
-   "'Product Intro' comp oluştur (1920x1080, 5s)"
-   "Scale animasyonu ekle (0→100%)"
-   "Glow effect ekle"
-   "Render: Desktop/intro.mov"
+Edit `config.yaml` to customize:
 
-3. Godot'ta entegre et (opsiyonel):
-   "intro.mov'u Godot projeme import et"
-```
+```yaml
+# Switch between simulator and real device
+eeg_device:
+  type: "simulator"  # or "muse2" when device arrives
 
-**Sonuç:** Photoshop → After Effects → Godot, hepsi Claude üzerinden! 🎉
+# Adjust data storage
+data_storage:
+  base_path: "./data"
+  compression: "gzip"
+  compression_level: 4
 
----
-
-## 🛠️ Nasıl Çalışır?
-
-```
-┌─────────────────┐
-│ Claude Desktop  │  "Bu görüntüyü 800x600 yap"
-└────────┬────────┘
-         │ MCP Protocol
-         ▼
-┌─────────────────────────┐
-│ MCP Sunucuları (Python) │
-│  - Godot Server         │
-│  - Photoshop Server     │
-│  - After Effects Server │
-└────────┬────────────────┘
-         │
-         │ Mac: AppleScript
-         │ Windows: COM/Win32
-         │ JSX/ExtendScript
-         ▼
-┌─────────────────┐
-│ Lokal Yazılımlar│
-│  - Godot        │
-│  - Photoshop    │
-│  - After Effects│
-└─────────────────┘
+# Scenario settings
+scenarios:
+  default_duration: 300  # seconds
+  preparation_time: 10
+  require_notes: true
 ```
 
-**Avantajlar:**
-- ⚡ **Anlık** - gerçek zamanlı kontrol
-- 💰 **Ücretsiz** - API key gerekmez
-- 🔒 **Offline** - internet gerekmez
-- 🎨 **Tam özellikli** - tüm yazılım özellikleri
-- 🤖 **Doğal dil** - konuşarak kontrol
+## 📊 Data Format
 
----
+### EEG Data (HDF5)
 
-## 📋 Gereksinimler
+```python
+# Structure
+/eeg_data       # (n_samples, n_channels) float32 array
+/timestamps     # (n_samples,) Unix timestamps
+/attributes     # Metadata (channels, sampling_rate, etc.)
 
-### Yazılım
-- **Python 3.10+**
-- **Claude Desktop** (en güncel sürüm)
-- **MCP SDK** (`pip install mcp`)
-- **pywin32** (sadece Windows için)
-
-### Uygulamalar (İsteğe Bağlı)
-- **Godot Engine** (3.x veya 4.x)
-- **Adobe Photoshop** (2020+)
-- **Adobe After Effects** (2020+)
-
-### İşletim Sistemi
-- ✅ **macOS** (10.15+)
-- ✅ **Windows** (10/11)
-- ✅ **Linux** (Adobe uygulamaları Wine ile)
-
----
-
-## 🎓 Kullanım Senaryoları
-
-### 🎮 Game Developer
-```
-- Godot'ta oyun geliştir
-- Photoshop'ta UI/asset oluştur
-- After Effects'te intro/cutscene yap
+# Example
+import h5py
+with h5py.File('data/raw/scenario.h5', 'r') as f:
+    eeg = f['eeg_data'][:]      # Shape: (76800, 4) for 5min @ 256Hz
+    times = f['timestamps'][:]
+    channels = f.attrs['channels']  # ["AF7", "AF8", "TP9", "TP10"]
 ```
 
-### 🎥 Content Creator (YouTube, TikTok)
-```
-- Photoshop'ta thumbnail tasarla
-- After Effects'te intro/outro oluştur
-- Batch rendering ve automation
-```
+### Metadata (JSON)
 
-### 🎨 Graphic/Motion Designer
-```
-- Photoshop'ta grafik tasarla
-- After Effects'te animasyon ekle
-- Müşteriye hızlı sunum
-```
-
-### 💼 Digital Agency
-```
-- Tüm asset pipeline'ı otomatize et
-- Batch işlemler (logo variations)
-- Brand guidelines uygula
-```
-
----
-
-## 🔧 Yapılandırma
-
-Kurulum sonrası Claude Desktop config dosyanız:
-
-**Konum:**
-- Mac: `~/Library/Application Support/Claude/claude_desktop_config.json`
-- Linux: `~/.config/Claude/claude_desktop_config.json`
-- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
-
-**İçerik:**
 ```json
 {
-  "mcpServers": {
-    "godot": {
-      "command": "python3",
-      "args": ["/home/user/depo/godot_mcp_server.py"],
-      "env": {"PYTHONUNBUFFERED": "1"}
-    },
-    "photoshop": {
-      "command": "python3",
-      "args": ["/home/user/depo/photoshop_mcp_server.py"],
-      "env": {"PYTHONUNBUFFERED": "1"}
-    },
-    "aftereffects": {
-      "command": "python3",
-      "args": ["/home/user/depo/aftereffects_mcp_server.py"],
-      "env": {"PYTHONUNBUFFERED": "1"}
-    }
+  "scenario_id": "baseline_rest_20250116_120000",
+  "scenario_type": "baseline_rest",
+  "timestamps": {
+    "start": "2025-01-16T12:00:00",
+    "end": "2025-01-16T12:05:00",
+    "duration_seconds": 300
+  },
+  "multimodal": {
+    "eeg_file": "data/raw/baseline_rest_20250116_120000.h5",
+    "gps_file": null,
+    "audio_files": [],
+    "text_notes": [
+      {
+        "timestamp": "2025-01-16T12:05:00",
+        "note": "Felt very relaxed, minimal mind wandering"
+      }
+    ]
+  },
+  "annotations": {
+    "description": "Morning baseline measurement",
+    "tags": ["baseline", "morning"],
+    "quality_rating": 5
+  },
+  "device_info": {
+    "eeg_device": "simulator",
+    "channels": ["AF7", "AF8", "TP9", "TP10"],
+    "sampling_rate": 256
   }
 }
 ```
 
----
+## 🎯 Creating Custom Scenarios
 
-## 🐛 Sorun Giderme
-
-### ❌ "MCP araçlarını göremiyorum"
-
-**Çözüm:**
-1. Claude Desktop'ı **tamamen** kapatıp yeniden açın (Cmd+Q)
-2. Config dosyası doğru konumda mı kontrol edin
-3. JSON syntax'ı doğru mu kontrol edin
-
----
-
-### ❌ "Photoshop/After Effects'e bağlanılamadı"
-
-**Çözüm:**
-1. İlgili uygulama açık mı?
-2. (Mac) System Preferences → Security → Automation izinleri
-3. (Windows) `pip install pywin32` yüklü mü?
-
----
-
-### ❌ "Godot project not set"
-
-**Çözüm:**
-```
-Godot projem /tam/yol/buraya dizininde
-```
-
----
-
-### 🔍 Developer Console
-
-Detaylı debug için:
-- **Mac:** `Cmd + Option + Shift + I`
-- **Windows:** `Ctrl + Shift + I`
-
-Console'da server loglarını görebilirsiniz.
-
----
-
-## 🎨 Örnek Projeler
-
-### 1. YouTube İçerik Pipeline
+See `scenarios/examples/custom_scenario_template.py` for a template.
 
 ```python
-# Photoshop: Thumbnail tasarla
-"Desktop/video_screenshot.jpg'yi aç"
-"'BÖLÜM 5' yazısı ekle, büyük, kırmızı"
-"Desktop/thumbnail.png olarak kaydet"
+from embodied_ai.scenarios.base import Scenario
 
-# After Effects: Intro oluştur
-"'Intro' comp oluştur (1920x1080, 5s)"
-"Logo reveal animasyonu yap"
-"Desktop/intro.mov render et"
+class MyScenario(Scenario):
+    def get_instructions(self):
+        return "Your custom instructions..."
 
-# Sonuç: Hazır YouTube içeriği!
+    def on_start(self):
+        super().on_start()
+        # Custom initialization
+
+    def on_stop(self):
+        # Custom cleanup
+        super().on_stop()
 ```
 
----
+## 🔌 Device Integration
 
-### 2. Oyun Asset Pipeline
+### Current: Simulator
 
-```python
-# Photoshop: UI elementi tasarla
-"1920x1080 yeni doküman oluştur"
-"Button tasarla (mavi gradient, rounded)"
-"PNG sequence olarak kaydet (normal, hover, pressed)"
+The simulator generates realistic multi-frequency EEG data for testing:
+- 4 channels (AF7, AF8, TP9, TP10)
+- 256 Hz sampling rate
+- Multiple frequency bands (delta, theta, alpha, beta, gamma)
+- Realistic noise
 
-# Godot: Import ve setup
-"Desktop/ui_button_*.png'leri Godot'a import et"
-"Button sahnesini oluştur"
-```
+### Coming Soon: Muse 2
 
----
+When your Muse 2 arrives:
 
-### 3. Kurumsal Brand Video
-
-```python
-# Photoshop: Logo ve grafik hazırla
-"Desktop/raw_logo.psd'yi aç"
-"Farklı boyutlarda export et (512, 256, 128)"
-
-# After Effects: Corporate video
-"'Brand Video' comp oluştur (1920x1080, 30s)"
-"Logo'yu import et"
-"Professional animation template uygula"
-"Lower third'ler ekle"
-"H.264 render et"
-```
-
----
-
-## 📊 İstatistikler
-
-| Metrik | Değer |
-|--------|-------|
-| **Toplam Araç** | 34 |
-| **Sunucu Sayısı** | 3 |
-| **Desteklenen Yazılım** | 3 (Godot, Photoshop, After Effects) |
-| **Toplam Kod Satırı** | ~4800 |
-| **Dokümantasyon Dosyası** | 14 |
-| **Örnek Sayısı** | 50+ |
-
----
-
-## 🚀 Gelecek Özellikler
-
-Planlanan ek entegrasyonlar:
-
-- [ ] **Illustrator** - Vektör grafik düzenleme
-- [ ] **InDesign** - Sayfa düzeni
-- [ ] **Premiere Pro** - Video editing
-- [ ] **Lightroom** - Fotoğraf düzenleme
-- [ ] **Blender** - 3D modelleme
-- [ ] **Maya** - 3D animasyon
-- [ ] **Unity** - Oyun motoru
-- [ ] **Unreal Engine** - Oyun motoru
-
-**Hangisini istersiniz?** Issue açın veya PR gönderin!
-
----
-
-## 🤝 Katkıda Bulunma
-
-Pull request'ler memnuniyetle karşılanır!
-
-**Eklenebilecek özellikler:**
-- Yeni Adobe yazılım entegrasyonları
-- Daha fazla Godot fonksiyonu
-- Batch processing iyileştirmeleri
-- Yeni animasyon şablonları
-- Daha fazla örnek ve tutorial
-
----
-
-## 📄 Lisans
-
-MIT
-
----
-
-## 💡 İpuçları
-
-1. **Performans:** Büyük dosyalarla çalışırken uygulamalara yeterli RAM ayırın
-2. **Güvenlik:** JSX scriptleri güçlüdür, trusted kaynaklardan çalıştırın
-3. **Backup:** Önemli dosyalarda işlem yapmadan önce backup alın
-4. **Workflow:** Sık tekrar eden işlemleri not edin, Claude'a tek komutla yaptırın
-
----
-
-## 📞 Destek
-
-Sorun yaşıyorsanız:
-
-1. **Dokümantasyonu okuyun:**
-   - [QUICKSTART_TR.md](QUICKSTART_TR.md) - Hızlı başlangıç
-   - İlgili sunucu dokümantasyonu
-
-2. **Developer Console'u kontrol edin:**
-   - Cmd+Option+Shift+I (Mac)
-   - Ctrl+Shift+I (Windows)
-
-3. **Server'ı manuel test edin:**
-   ```bash
-   python3 godot_mcp_server.py
-   python3 photoshop_mcp_server.py
-   python3 aftereffects_mcp_server.py
+1. Install muselsl: `pip install muselsl`
+2. Update `config.yaml`:
+   ```yaml
+   eeg_device:
+     type: "muse2"
+     muse2:
+       bluetooth_name: "Muse-XXXX"  # Your device name
    ```
+3. The abstract interface ensures seamless switching!
 
-4. **Issue açın:**
-   - GitHub Issues
-   - Detaylı hata mesajları ekleyin
-   - Platform ve versiyon belirtin
+## 📱 Mobile Workflow (Laptop + Phone)
 
----
+### Current Setup:
+1. **Laptop**: Runs main Python system, records EEG
+2. **Phone**: Records GPS track using any GPX app
 
-## 🎉 Başarılar!
+### Typical Outdoor Scenario:
+1. Start scenario on laptop
+2. Start GPS recording on phone
+3. Execute scenario (walk, exercise, explore)
+4. Stop both recordings
+5. Transfer GPX file to laptop
+6. System synchronizes timestamps
 
-Artık Claude Desktop ile Godot, Photoshop ve After Effects'i kontrol edebilirsiniz!
+### Future: Web Interface
+Simple web UI accessible from phone browser for:
+- Viewing current scenario instructions
+- Adding voice/text notes during execution
+- Checking recording status
 
-**Tek komut:**
+## 🔐 Privacy & Security
+
+- **Local-only**: All data stored on your machine
+- **No cloud**: No automatic uploads
+- **No telemetry**: System doesn't "phone home"
+- **Your control**: You decide what to share, when, and with whom
+
+Optional privacy features (in config):
+- GPS coordinate anonymization (round to lower precision)
+- Data encryption (future)
+
+## 🐛 Troubleshooting
+
+### "No module named 'embodied_ai'"
+Add project root to Python path or install in development mode:
 ```bash
-./install_all_mcp.sh
+pip install -e .
 ```
 
-**Sonuç:**
-- ✅ 3 sunucu çalışıyor
-- ✅ 34 araç kullanıma hazır
-- ✅ Sınırsız yaratıcılık potansiyeli
+### Simulator connection fails
+Check `config.yaml` device type is set to "simulator"
 
-**Harika projeler oluşturun! 🚀✨**
+### Import errors
+Ensure all dependencies installed:
+```bash
+pip install -r requirements.txt
+```
+
+### Windows-specific issues
+- Use forward slashes in paths: `data/raw` not `data\raw`
+- Run scripts with `python` not `python3`
+
+## 🗺️ Roadmap
+
+### Phase 1 (Current) ✅
+- [x] Project structure
+- [x] Simulator device
+- [x] Data logging (HDF5 + JSON)
+- [x] Scenario framework
+- [x] CLI tools
+
+### Phase 2 (After Muse 2 Arrives)
+- [ ] Muse 2 integration
+- [ ] Real-time data quality checks
+- [ ] Signal quality indicators
+
+### Phase 3 (Multimodal Integration)
+- [ ] GPS track parsing and visualization
+- [ ] Audio note integration
+- [ ] Whisper speech-to-text
+- [ ] Data synchronization tools
+
+### Phase 4 (Analysis)
+- [ ] Data visualization dashboard
+- [ ] Frequency band analysis
+- [ ] Event-triggered averaging
+- [ ] Statistical summaries
+
+### Phase 5 (Claude Integration)
+- [ ] Export data for Claude analysis
+- [ ] Context-aware prompts
+- [ ] Pattern recognition
+- [ ] Cognitive state classification
+
+### Phase 6 (Mobile Enhancement)
+- [ ] Flask web interface
+- [ ] Phone-accessible scenario instructions
+- [ ] Real-time status monitoring
+- [ ] Remote control capabilities
+
+## 🤝 Contributing
+
+This is a personal research project, but contributions welcome:
+1. Fork the repository
+2. Create a feature branch
+3. Add your enhancement
+4. Submit a pull request
+
+## 📄 License
+
+[Choose your license - MIT, Apache 2.0, GPL, etc.]
+
+## 🙏 Acknowledgments
+
+- **Muse 2**: InteraXon for EEG hardware
+- **muselsl**: Lab Streaming Layer integration
+- **HDF5**: Hierarchical Data Format
+- **Claude**: Anthropic AI for analysis tools
+
+## 📧 Contact
+
+[Your contact information or discussion forum]
 
 ---
 
-## 🔗 Bağlantılar
-
-- [MCP Protocol Docs](https://modelcontextprotocol.io/)
-- [Claude Desktop](https://claude.ai/desktop)
-- [Godot Engine](https://godotengine.org/)
-- [Adobe Creative Cloud](https://www.adobe.com/creativecloud.html)
-- [ExtendScript Guide](https://www.adobe.com/devnet/scripting.html)
-
----
-
-**⭐ Bu projeyi beğendiyseniz yıldız vermeyi unutmayın!**
+**Status**: Phase 1 Complete ✅
+**Next**: Awaiting Muse 2 hardware (1-2 weeks)
+**Started**: January 2025

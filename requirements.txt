@@ -1,2 +1,31 @@
-mcp>=0.9.0
-numpy>=1.19.0
+# Embodied AI EEG Foundation - Essential Dependencies
+# Python 3.10+
+
+# === EEG Device Integration ===
+muselsl>=2.2.0              # Muse 2 Lab Streaming Layer
+pylsl>=1.16.0               # Lab Streaming Layer protocol
+numpy>=1.24.0               # Numerical operations
+
+# === Data Storage ===
+h5py>=3.8.0                 # HDF5 for efficient EEG time-series storage
+tables>=3.8.0               # PyTables for advanced HDF5 operations
+
+# === Configuration & Logging ===
+pyyaml>=6.0                 # YAML configuration files
+python-dateutil>=2.8.2      # Timestamp handling
+
+# === GPS Data Parsing ===
+gpxpy>=1.5.0                # GPX file parsing (for phone GPS data)
+
+# === Future: Audio Processing (Optional - Phase 2) ===
+# sounddevice>=0.4.6        # Audio recording
+# scipy>=1.10.0             # Audio processing
+# openai-whisper>=20230918  # Speech-to-text (local)
+
+# === Future: Web Interface (Phase 2+) ===
+# flask>=2.3.0              # Simple web UI for phone
+# flask-cors>=4.0.0         # Cross-origin requests
+
+# === Development & Testing ===
+pytest>=7.4.0               # Unit testing
+black>=23.0.0               # Code formatting

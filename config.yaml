@@ -1,0 +1,108 @@
+# Embodied AI EEG System Configuration
+
+# === EEG Device Settings ===
+eeg_device:
+  type: "simulator"  # Options: "simulator", "muse2"
+
+  # Muse 2 Settings (when device arrives)
+  muse2:
+    bluetooth_name: "Muse-XXXX"  # Your device name
+    channels: ["AF7", "AF8", "TP9", "TP10"]
+    sampling_rate: 256  # Hz
+    buffer_size: 512  # samples
+
+  # Simulator Settings (for testing)
+  simulator:
+    channels: ["AF7", "AF8", "TP9", "TP10"]
+    sampling_rate: 256  # Hz
+    frequency_bands:
+      delta: [0.5, 4]    # Deep sleep
+      theta: [4, 8]      # Meditation, creativity
+      alpha: [8, 13]     # Relaxed awareness
+      beta: [13, 30]     # Active thinking
+      gamma: [30, 50]    # High-level cognition
+    noise_level: 0.1     # Realistic noise amplitude
+
+# === Data Storage ===
+data_storage:
+  base_path: "./data"
+
+  # Data directories
+  paths:
+    raw_eeg: "raw"
+    scenarios: "scenarios"
+    audio: "audio"
+    gps: "gps"
+    logs: "logs"
+
+  # File naming
+  timestamp_format: "%Y%m%d_%H%M%S"
+  eeg_file_extension: ".h5"
+  metadata_file_extension: ".json"
+
+  # HDF5 compression
+  compression: "gzip"
+  compression_level: 4
+
+# === Scenario Settings ===
+scenarios:
+  default_duration: 300  # seconds (5 minutes)
+
+  # Pre-scenario preparation
+  preparation_time: 10  # seconds to prepare
+
+  # Post-scenario notes
+  require_notes: true
+
+  # Example scenario types
+  types:
+    - "baseline_rest"      # Eyes closed, relaxed
+    - "focused_task"       # Problem-solving
+    - "physical_activity"  # Walking, exercise
+    - "social_interaction" # Conversation
+    - "creative_work"      # Writing, drawing
+    - "meditation"         # Mindfulness practice
+
+# === Multimodal Data Integration ===
+multimodal:
+  # GPS synchronization
+  gps:
+    enabled: true
+    timezone: "UTC"
+    interpolate: true  # Interpolate GPS between points
+
+  # Audio notes
+  audio:
+    enabled: true
+    format: "wav"
+    sample_rate: 16000  # Hz (good for speech)
+
+  # Text notes
+  text_notes:
+    enabled: true
+    prompt_after_scenario: true
+
+# === Privacy & Security ===
+privacy:
+  local_only: true  # Never upload data
+  anonymize_gps: false  # Option to round GPS coordinates
+  encryption: false  # Future: encrypt sensitive data
+
+# === System Settings ===
+system:
+  log_level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  verbose: true
+
+  # Real-time display
+  display_live_eeg: false  # Show real-time waveforms
+  terminal_width: 80
+
+# === Claude Integration (Future) ===
+claude:
+  enabled: false  # Phase 2+
+  model: "claude-sonnet-4.5"
+  context_window: 200000
+  analysis_prompts:
+    - "Analyze EEG patterns during this scenario"
+    - "Correlate cognitive states with physical location"
+    - "Identify moments of high cognitive load"
